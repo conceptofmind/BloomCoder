@@ -8,7 +8,7 @@ from hugging_face_config import CFG
 
 def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
     """
-    Build streaming dataloaders for the PaLM model.
+    Build dataloaders for the Bloom Coder model.
     Useful for low RAM and storage environments.
     Requires stable internet connection.
     """
@@ -30,6 +30,8 @@ def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
 
     # Shuffle the validation input files.
     shuffled_eval_files = load_eval_data.shuffle(seed = cfg.seed)
+
+    tokenizer = BloomTokenizerFast.from_pretrained(cfg.tokenizer_name)
 
     """
     A sequence length of 2048 is used for the model. Input examples are concatenated
@@ -105,14 +107,8 @@ if __name__ == '__main__':
     # Get Dataloader Configuration Arguments
     data_loader_args = CFG()
 
-    # Get Tokenizer Configuration Arguments
-    tokenizer_args = "bigscience/bloom-1b3"
-
-    # Load the pretrained tokenizer of your choosing
-    tokenizer = BloomTokenizerFast.from_pretrained(tokenizer_args)
-
     # Test Build Dataloaders
-    train_loader, eval_loader = build_dataloaders(cfg = data_loader_args, tokenizer = tokenizer)
+    train_loader, eval_loader = build_dataloaders(cfg = data_loader_args)
 
     print(next(iter(train_loader))['input_ids'])
     print(next(iter(train_loader))['input_ids'].shape)
