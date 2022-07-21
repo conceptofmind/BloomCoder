@@ -79,7 +79,7 @@ class CFG:
     )
 
     tokenizer_seq_length: Optional[int] = field(
-        default=512, 
+        default=1024, 
         metadata={"help": "Sequence lengths used for tokenizing examples."}
     )
 

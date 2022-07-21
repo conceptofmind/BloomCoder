@@ -9,8 +9,6 @@ from hugging_face_config import CFG
 def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
     """
     Build dataloaders for the Bloom Coder model.
-    Useful for low RAM and storage environments.
-    Requires stable internet connection.
     """
 
     # Load training dataset
@@ -34,12 +32,9 @@ def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
     tokenizer = BloomTokenizerFast.from_pretrained(cfg.tokenizer_name)
 
     """
-    A sequence length of 2048 is used for the model. Input examples are concatenated
-    together and then split into sequences of exactly 2048 tokens, so that there are 
+    A sequence length of x is used for the model. Input examples are concatenated
+    together and then split into sequences of exactly x tokens, so that there are 
     no padding tokens, but examples may be split in the middle.
-
-    PaLM: Scaling Language Modeling with Pathways:
-    https://arxiv.org/pdf/2204.02311.pdf
 
     Tokenize function reference:
     https://github.com/hpcaitech/PaLM-colossalai/blob/main/data/wikitext.py
@@ -64,7 +59,7 @@ def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
     
     """
     Map the tokenization function to the shuffled training files to create an 
-    Iterable training dataset of batched input sequences of 2048 tokens.
+    Iterable training dataset of batched input sequences of x tokens.
     Remove columns from the the shuffled training files so that you are left with 
     only the input_ids, attention_mask, and labels columns.
     """
@@ -73,7 +68,7 @@ def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
 
     """
     Map the tokenization function to the shuffled validation files to create an 
-    Iterable validation dataset of batched input sequences of 2048 tokens.
+    Iterable validation dataset of batched input sequences of x tokens.
     Remove columns from the the shuffled training files so that you are left with 
     only the input_ids, attention_mask, and labels columns.
     """
