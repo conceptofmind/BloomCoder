@@ -4,9 +4,9 @@ from datasets import load_dataset
 from torch.utils.data import DataLoader, DistributedSampler
 from torch.distributed import get_world_size
 from transformers import BloomTokenizerFast, default_data_collator
-from hugging_face_config import CFG
+from .hugging_face_config import CFG
 
-def build_dataloaders(cfg: CFG, tokenizer: BloomTokenizerFast):
+def build_dataloaders(cfg: CFG):
     """
     Build dataloaders for the Bloom Coder model.
     """
